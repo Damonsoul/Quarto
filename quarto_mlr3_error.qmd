@@ -1,0 +1,36 @@
+---
+title: "mlr3 对比 tidymodel"
+format: 
+  html:
+    toc: true
+    number-sections: true
+    # echo: false
+    warning: false
+editor: visual
+---
+
+
+```{r}
+library(modeldata)
+library(tidyverse)
+data("credit_data")
+df <- as_tibble(credit_data)
+knitr::kable(df %>% head())
+library(mlr3)
+task <- as_task_classif(df,target = "Status",id = 'credit')
+task
+set.seed(123)
+split <- partition(task = task,ratio = 0.8)
+# split
+task$set_row_roles(rows = split$test,roles = "holdout")
+# task$row_roles
+```
+
+
+```{r,mlr_learners}
+
+
+
+learner = lrn("classif.ranger", predict_type = "prob")
+learner
+```
